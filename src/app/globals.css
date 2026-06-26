@@ -1,0 +1,184 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   SEMANTIC MOTION DESIGN SYSTEM
+   - One deep charcoal background
+   - Warm off-white text
+   - One soft-lime accent, used only for active states
+   - Real project media provides the colour
+   - No aurora, no glow walls, no particles, no custom cursor
+   ============================================================ */
+
+:root {
+  --ink: #0c0c0d;
+  --ink-soft: #141416;
+  --line: rgba(242, 239, 230, 0.1);
+  --line-strong: rgba(242, 239, 230, 0.22);
+  --paper: #f4f1e8;
+  --muted: #a7a79e;
+  --faint: #6c6c66;
+  --accent: #c6f24e;
+  --accent-dim: rgba(198, 242, 78, 0.16);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--accent);
+  color: #0a1200;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Quiet, fixed background. A single soft vignette — no moving aurora,
+   no coloured bloom layers. Real media supplies the colour on top. */
+.stage-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 90% at 50% -10%, #161618 0%, var(--ink) 55%),
+    var(--ink);
+}
+
+/* very subtle film grain — texture only, not motion */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+main.scroller {
+  position: relative;
+  z-index: 5;
+}
+
+/* ---- Layout primitives ---- */
+.section {
+  position: relative;
+  width: 100%;
+  padding: 12vh clamp(20px, 6vw, 120px);
+}
+.section-inner {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+.eyebrow {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.quiet-panel {
+  /* high-contrast reading area for critical text */
+  background: rgba(12, 12, 13, 0.55);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  backdrop-filter: blur(6px);
+}
+
+/* A pinned stage holds one focal point per viewport. */
+.pin-stage {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* ---- 9:16 content screen (real media) ---- */
+.screen {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+}
+.screen video,
+.screen img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.screen-label {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 2;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: rgba(12, 12, 13, 0.6);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 12px;
+  backdrop-filter: blur(4px);
+}
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 13px 24px;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 15px;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.btn-solid {
+  background: var(--accent);
+  color: #0a1200;
+}
+.btn-solid:hover {
+  transform: translateY(-2px);
+}
+.btn-ghost {
+  border: 1px solid var(--line-strong);
+  color: var(--paper);
+}
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Reduced motion: nothing essential should depend on movement. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
